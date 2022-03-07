@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct ContentView: View {
     var body: some View {
@@ -45,7 +46,7 @@ struct Home : View{
                     
                     Circle()
                         .trim(from:0, to: self.to)
-                        .stroke(Color.red, style: StrokeStyle(lineWidth: 15, lineCap: .round))
+                        .stroke(Color.purple, style: StrokeStyle(lineWidth: 15, lineCap: .round))
                         .frame(width: 280, height: 280)
                         .rotationEffect(.init(degrees: -90))
                     
@@ -63,7 +64,12 @@ struct Home : View{
                 HStack(spacing: 20){
                    
                     Button(action: {
-                        
+                        if self.count == 30{
+                            self.count = 0
+                            withAnimation(.default){
+                                self.to = 0
+                            }
+                        }
                         self.start.toggle()
                         
                     }){
@@ -81,6 +87,10 @@ struct Home : View{
                     }
                     
                     Button(action: {
+                        self.count = 0
+                        withAnimation(.default){
+                            self.to = 0
+                        }
                         
                     }){
                         HStack(spacing: 15){
@@ -102,6 +112,12 @@ struct Home : View{
                 .padding(.top, 55)
                 
             }
+            .onAppear(perform: {
+                
+                UNUserNotificationCenter.current().requestAuthorization(options: [.badge,.sound,.alert]) {(_, _) in
+                    
+                }
+            })
             
         }
         .onReceive(self.time){(_) in
@@ -109,12 +125,29 @@ struct Home : View{
             if self.start{
                 if self.count != 30{
                     self.count += 1
-                    print("hell")
+
+                    withAnimation(.default){
+                        self.to = CGFloat(self.count)/30
+                    }
+                    
+                    
                 }else{
-                    self.to = 0
                     self.start.toggle()
+                    self.Notify()
                 }
             }
         }
+    }
+    
+    func Notify(){
+        let content = UNMutableNotificationContent()
+        content.title = "Message"
+        content.body = "Timer is Complited"
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        
+        let req = UNNotificationRequest(identifier: "MSG", content: content, trigger: trigger)
+       
+        UNUserNotificationCenter.current().add(req, withCompletionHandler: nil)
     }
 }
