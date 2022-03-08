@@ -125,7 +125,7 @@ struct Home : View{
             if self.start{
                 if self.count != 30{
                     self.count += 1
-
+    
                     withAnimation(.default){
                         self.to = CGFloat(self.count)/30
                     }
