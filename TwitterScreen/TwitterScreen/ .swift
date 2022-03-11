@@ -16,6 +16,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .preferredColorScheme(.light)
     }
 }
 
@@ -30,6 +31,7 @@ struct SplashScreen: View{
             Image("homeDark")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
+                .opacity(splashAnimation ? 1:0 )
                 
             
             Color("BG")
@@ -45,13 +47,16 @@ struct SplashScreen: View{
                      
                     )
                 )
-                .onTapGesture {
-                    withAnimation(.easeInOut(duration: 0.4)){
-                        splashAnimation.toggle()
-                    }
-                }
         }
         .ignoresSafeArea()
+        .onAppear {
+            
+            
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.4){
+                withAnimation(.easeInOut(duration: 0.4)){
+                    splashAnimation.toggle()
+            }
+        }
     }
 }
-
+}
