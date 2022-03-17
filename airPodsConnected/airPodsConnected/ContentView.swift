@@ -53,8 +53,36 @@ struct Home: View{
 
 extension View{
     
+    
+    func getRootController()->UIViewController{
+        guard let screen = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        else{
+            return .init()
+        }
+        
+        guard let root = screen.windows.last?.rootViewController else{
+            return .init()
+        }
+        return root
+    }
+    
+    func getRect()->CGRect{
+        return UIScreen.main.bounds
+    }
+    
     func showHUD(image: String, color: Color = .primary,title: String){
         
+        
+        let hudViewController = UIHostingController(rootView: HUDView(image:image, color: color, title: title))
+        
+        let size = hudViewController.view.intrinsicContentSize
+        
+        hudViewController.view.frame.size = size
+        
+        hudViewController.view.frame.origin = CGPoint(x: (getRect().width/2) - (size.width/2), y:50)
+        
+        hudViewController.view.backgroundColor = .clear
+        getRootController().view.addSubview(hudViewController.view)
     }
 }
 
