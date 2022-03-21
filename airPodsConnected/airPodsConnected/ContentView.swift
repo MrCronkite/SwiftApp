@@ -39,11 +39,15 @@ struct Home: View{
                 .navigationTitle("Home")
                 .toolbar {
                     Button("Show HUD"){
-                        
+                        showHUD(image: "airpodspro", color: .green, title: "Connected"){
+                            status, msg in
+                            if !status{
+                                print(msg)
+                            }
+                        }
                     }
                 }
             }
-            .overlay(HUDView(image: "airpodspro", color: .primary, title: "Connected"))
             
         }
         
@@ -70,8 +74,14 @@ extension View{
         return UIScreen.main.bounds
     }
     
-    func showHUD(image: String, color: Color = .primary,title: String){
+    func showHUD(image: String, color: Color = .primary,title: String, completion: @escaping (Bool,String)->()){
         
+        if getRootController().view.subviews.contains(where: {view in
+            return view.tag == 1009
+        }){
+            completion(false, "Already Presenting!")
+            return
+        }
         
         let hudViewController = UIHostingController(rootView: HUDView(image:image, color: color, title: title))
         
@@ -82,6 +92,8 @@ extension View{
         hudViewController.view.frame.origin = CGPoint(x: (getRect().width/2) - (size.width/2), y:50)
         
         hudViewController.view.backgroundColor = .clear
+        
+        hudViewController.view.tag = 1009
         getRootController().view.addSubview(hudViewController.view)
     }
 }
@@ -94,6 +106,9 @@ struct HUDView: View{
     var title: String
     
     @Environment(\.colorScheme) var scheme
+    
+    @State var showHUD: Bool = false
+
     
     var body: some View{
         HStack(spacing: 10){
@@ -115,5 +130,25 @@ struct HUDView: View{
         .shadow(color: Color.primary.opacity(0.03), radius: 5, x: 0, y: -5)
         
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .offset(y: showHUD ? 0 : -200)
+        .onAppear{
+            withAnimation(.easeInOut(duration: 0.5)){
+                showHUD = true
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5){
+                withAnimation(.easeInOut(duration: 0.5)){
+                    showHUD = false
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline:  .now()+0.6){
+                    getRootController().view.subviews.forEach { view in
+                        if view.tag == 1009{
+                            view.removeFromSuperview()
+                        }
+                    }
+                }
+            }
+        }
     }
 }
