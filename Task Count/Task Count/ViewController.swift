@@ -7,16 +7,30 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 3
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 10
+    }
+    
     
     
     @IBOutlet weak var buttonOne: UIButton!
     @IBOutlet weak var labelPass: UILabel!
     
     let mySwitch = UISwitch()
+    let picker = UIPickerView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        self.picker.frame = CGRect(x: 300, y: 400, width: 0, height: 0)
+        picker.dataSource =  self
+        self.view.addSubview(picker)
         
         buttonOne.layer.cornerRadius = 10
         //buttonOne.setTitle("введи пароль", for: .highlighted)
