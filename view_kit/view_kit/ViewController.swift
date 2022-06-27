@@ -18,25 +18,41 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         //label
-        self.label.frame = CGRect(x: 0, y: 0, width: 100, height: 20)
+        self.label.frame = CGRect(x: 200, y: 70, width: 100, height: 50)
         self.label.text = "hello world"
+        self.label.textAlignment = .center
+        self.label.numberOfLines = 3
         self.label.textColor = .green
-        self.label.center = view.center
         self.view.addSubview(label)
         
         
         //button
-        self.buttonAction.frame = CGRect(x: 20, y: 100, width: 100, height: 50)
-        self.buttonAction.setTitle("✸", for: .normal)
-        self.buttonAction.setTitleColor(.yellow, for: .normal)
+        self.buttonAction.frame = CGRect(x: 10, y: 70, width: 100, height: 50)
+        self.buttonAction.setTitle("klick", for: .normal)
+        self.buttonAction.setTitleColor(.black, for: .normal)
+        self.buttonAction.layer.cornerRadius = 20
+        self.buttonAction.backgroundColor = .blue
         self.buttonAction.addTarget(self, action: #selector(pressed), for: .touchUpInside)
         self.view.addSubview(buttonAction)
     }
     
     @objc func pressed(sender: UIButton!) {
-        print("hello")
+        self.alert(title: "Vlad привет", message: "nenenne", style: .alert)
+    }
+    
+    func alert(title: String, message: String, style: UIAlertController.Style){
+    let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
+        let action = UIAlertAction(title: "ok", style: .default) {(action) in
+            let text = alertController.textFields?.first
+            self.label.text? += (text?.text)!
+        }
+        alertController.addTextField{(textField) in textField.isSecureTextEntry = false}
+        
+        alertController.addAction(action)
+        self.present(alertController, animated: true, completion: nil)
         
     }
+    
 
 
 }
