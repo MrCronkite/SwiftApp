@@ -10,8 +10,8 @@ import UIKit
 class ViewController: UIViewController {
     
     let label = UILabel()
-    let alert = UIAlertController()
     let buttonAction = UIButton()
+    let switchUI = UISwitch()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +34,12 @@ class ViewController: UIViewController {
         self.buttonAction.backgroundColor = .blue
         self.buttonAction.addTarget(self, action: #selector(pressed), for: .touchUpInside)
         self.view.addSubview(buttonAction)
+        
+        //switch
+        self.switchUI.frame = CGRect(x: 10, y: 130, width: 0, height: 0)
+        self.view.addSubview(self.switchUI)
+        self.switchUI.setOn(false, animated: true)
+        self.switchUI.addTarget(self, action: #selector(isOn(target:)), for: .valueChanged)
     }
     
     @objc func pressed(sender: UIButton!) {
@@ -52,8 +58,15 @@ class ViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
         
     }
-    
-
+                                
+    @objc func isOn(target: UISwitch){
+        if target.isOn{
+            print(target.isOn)
+            self.buttonAction.isEnabled = false
+        }else{
+            self.buttonAction.isEnabled = true
+        }
+    }
 
 }
 
