@@ -12,6 +12,8 @@ class ViewController: UIViewController {
     let label = UILabel()
     let buttonAction = UIButton()
     let switchUI = UISwitch()
+    let picker = UIPickerView()
+    let dataPicker = UIDatePicker()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +42,19 @@ class ViewController: UIViewController {
         self.view.addSubview(self.switchUI)
         self.switchUI.setOn(false, animated: true)
         self.switchUI.addTarget(self, action: #selector(isOn(target:)), for: .valueChanged)
+        
+        //picker
+        picker.frame = CGRect(x: self.view.center.x - 100, y: 170, width: 200, height: 120)
+        picker.dataSource = self
+        picker.delegate = self
+        picker.backgroundColor = .purple
+        self.view.addSubview(picker)
+        
+        //dataPicker
+        dataPicker.frame = CGRect(x: self.view.center.x - 150, y: 300, width: 300, height: 150)
+        self.view.addSubview(dataPicker)
+        dataPicker.addTarget(self, action: #selector(datePickerChange(paramDatePicker:)), for: .valueChanged)
+        
     }
     
     @objc func pressed(sender: UIButton!) {
@@ -61,12 +76,34 @@ class ViewController: UIViewController {
                                 
     @objc func isOn(target: UISwitch){
         if target.isOn{
-            print(target.isOn)
             self.buttonAction.isEnabled = false
         }else{
             self.buttonAction.isEnabled = true
         }
     }
+    
+    @objc func datePickerChange(paramDatePicker: UIDatePicker){
+        if paramDatePicker.isEqual(self.dataPicker){
+            print("dataChange = ", paramDatePicker.date)
+        }
+    }
 
 }
 
+
+extension ViewController: UIPickerViewDataSource{
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 10
+    }
+}
+
+extension ViewController: UIPickerViewDelegate{
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let result  = "row = \(row)"
+        
+        return result
+    }
+}
