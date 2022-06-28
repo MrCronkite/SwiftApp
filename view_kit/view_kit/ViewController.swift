@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
     
@@ -50,10 +51,22 @@ class ViewController: UIViewController {
         picker.backgroundColor = .purple
         self.view.addSubview(picker)
         
+        
         //dataPicker
         dataPicker.frame = CGRect(x: self.view.center.x - 150, y: 300, width: 300, height: 150)
         self.view.addSubview(dataPicker)
+        dataPicker.datePickerMode = .date
         dataPicker.addTarget(self, action: #selector(datePickerChange(paramDatePicker:)), for: .valueChanged)
+        
+        var oneYearTime = TimeInterval()
+        oneYearTime = 365*24*60*60
+        
+        let todayDate = Date()
+        let oneYearFromToday = todayDate.addingTimeInterval(oneYearTime)
+        let twoYearFromToday = todayDate.addingTimeInterval(oneYearTime * 2)
+        
+        dataPicker.maximumDate = twoYearFromToday
+        dataPicker.minimumDate = oneYearFromToday
         
     }
     
@@ -87,9 +100,10 @@ class ViewController: UIViewController {
             print("dataChange = ", paramDatePicker.date)
         }
     }
-
+    
 }
 
+//MARK: UIpicker
 
 extension ViewController: UIPickerViewDataSource{
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -102,8 +116,10 @@ extension ViewController: UIPickerViewDataSource{
 
 extension ViewController: UIPickerViewDelegate{
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let result  = "row = \(row)"
+        let result  = "row = \(row) + \(component)"
         
         return result
     }
 }
+
+
