@@ -13,6 +13,7 @@
 		B265FE6B286904CB007AB07E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B265FE69286904CB007AB07E /* Main.storyboard */; };
 		B265FE6D286904CC007AB07E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B265FE6C286904CC007AB07E /* Assets.xcassets */; };
 		B265FE70286904CC007AB07E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B265FE6E286904CC007AB07E /* LaunchScreen.storyboard */; };
+		B265FE78286B798D007AB07E /* solnce.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B265FE77286B798D007AB07E /* solnce.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		B265FE6C286904CC007AB07E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B265FE6F286904CC007AB07E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B265FE71286904CC007AB07E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B265FE77286B798D007AB07E /* solnce.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = solnce.mp3; path = ../../../../../Downloads/solnce.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				B265FE6C286904CC007AB07E /* Assets.xcassets */,
 				B265FE6E286904CC007AB07E /* LaunchScreen.storyboard */,
 				B265FE71286904CC007AB07E /* Info.plist */,
+				B265FE77286B798D007AB07E /* solnce.mp3 */,
 			);
 			path = view_kit;
 			sourceTree = "<group>";
@@ -125,6 +128,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B265FE78286B798D007AB07E /* solnce.mp3 in Resources */,
 				B265FE70286904CC007AB07E /* LaunchScreen.storyboard in Resources */,
 				B265FE6D286904CC007AB07E /* Assets.xcassets in Resources */,
 				B265FE6B286904CB007AB07E /* Main.storyboard in Resources */,

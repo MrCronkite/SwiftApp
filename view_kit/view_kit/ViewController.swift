@@ -12,13 +12,21 @@ class ViewController: UIViewController {
     
     let label = UILabel()
     let buttonAction = UIButton()
+    let buttonPlay = UIButton()
+    let buttonPause = UIButton()
     let switchUI = UISwitch()
     let picker = UIPickerView()
     let dataPicker = UIDatePicker()
+    var player = AVAudioPlayer()
+    let slider = UISlider()
+    var segmentControl = UISegmentedControl()
+    
+    var menuArrey = ["one", "two", "tree"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
         
         //label
         self.label.frame = CGRect(x: 200, y: 70, width: 100, height: 50)
@@ -37,6 +45,24 @@ class ViewController: UIViewController {
         self.buttonAction.backgroundColor = .blue
         self.buttonAction.addTarget(self, action: #selector(pressed), for: .touchUpInside)
         self.view.addSubview(buttonAction)
+        
+        self.buttonPlay.frame = CGRect(x: 40, y: 500, width: 100, height: 50)
+        self.buttonPlay.setTitle("play", for: .normal)
+        self.buttonPlay.setTitleColor(UIColor.purple, for: .highlighted)
+        self.buttonPlay.layer.cornerRadius = 10
+        self.buttonPlay.backgroundColor = .lightGray
+        self.buttonPlay.addTarget(self, action: #selector(playAudio(sender:)), for: .touchUpInside)
+        self.view.addSubview(buttonPlay)
+        
+        self.buttonPause.frame = CGRect(x: 240, y: 500, width: 100, height: 50)
+        self.buttonPause.setTitle("pause", for: .normal)
+        self.buttonPause.setTitleColor(UIColor.purple, for: .highlighted)
+        self.buttonPause.layer.cornerRadius = 10
+        self.buttonPause.backgroundColor = .lightGray
+        self.buttonPause.addTarget(self, action: #selector(pauseAudio(sender:)), for: .touchUpInside)
+        self.view.addSubview(buttonPause)
+        
+        
         
         //switch
         self.switchUI.frame = CGRect(x: 10, y: 130, width: 0, height: 0)
@@ -68,6 +94,56 @@ class ViewController: UIViewController {
         dataPicker.maximumDate = twoYearFromToday
         dataPicker.minimumDate = oneYearFromToday
         
+        
+        //audioplayer
+        do {
+                if let audioPath = Bundle.main.path(forResource: "solnce", ofType: "mp3"){
+                try player = AVAudioPlayer(contentsOf: URL(fileURLWithPath: audioPath))
+                    self.slider.maximumValue = Float(player.duration)
+                }
+                }catch {
+                print("error")
+            }
+        
+        
+        
+        
+        //slider
+        self.slider.frame = CGRect(x: 40, y: 450, width: 200, height: 23)
+        self.slider.maximumValue = 100.0
+        self.slider.minimumValue = 0.0
+        self.view.addSubview(slider)
+        self.slider.addTarget(self, action: #selector(changeValueMusic(target:)), for: .valueChanged)
+        
+        
+        //segmentcontrol
+        self.segmentControl = UISegmentedControl(items: self.menuArrey)
+        self.segmentControl.frame = CGRect(x: 100, y: 600, width: 200, height: 30)
+        self.segmentControl.addTarget(self, action: #selector(segmentControlChange(sender:)), for: .valueChanged)
+        self.view.addSubview(segmentControl)
+        
+        
+    }
+    
+    @objc func segmentControlChange(sender: UISegmentedControl){
+        if sender == self.segmentControl{
+            let  segmentIndex = sender.selectedSegmentIndex
+            self.label.text = menuArrey[segmentIndex]
+            sender.isMomentary = true
+            print(segmentIndex)
+        }
+    }
+    
+    @objc func changeValueMusic(target: UISlider){
+        self.player.currentTime = TimeInterval(target.value)
+    }
+    
+    @objc func playAudio(sender: UIButton){
+        self.player.play()
+    }
+    
+    @objc func pauseAudio(sender: UIButton){
+        self.player.stop()
     }
     
     @objc func pressed(sender: UIButton!) {
