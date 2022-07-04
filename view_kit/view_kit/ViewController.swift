@@ -20,6 +20,9 @@ class ViewController: UIViewController {
     var player = AVAudioPlayer()
     let slider = UISlider()
     var segmentControl = UISegmentedControl()
+    var buttonShare = UIButton()
+    var textField = UITextField()
+    var activityViewController: UIActivityViewController? = nil
     
     var menuArrey = ["one", "two", "tree"]
 
@@ -122,6 +125,46 @@ class ViewController: UIViewController {
         self.view.addSubview(segmentControl)
         
         
+        self.createButton()
+        self.createTextField()
+        
+    }
+    
+    //MARK - method
+
+    func createTextField(){
+        self.textField.frame = CGRect(x: 100, y: 700, width: 280, height: 44)
+        self.textField.borderStyle = .roundedRect
+        self.textField.placeholder = "Enter text to share"
+        self.view.addSubview(self.textField)
+    }
+    
+    func createButton(){
+        self.buttonShare.frame = CGRect(x: 100, y: 770, width: 280, height: 44)
+        //self.buttonShare = UIButton(type: .roundedRect)
+        self.buttonShare.setTitleColor(.red, for: .normal)
+        self.buttonShare.setTitle("Расшарить", for: .normal)
+        self.buttonShare.addTarget(self, action: #selector(hendleShare), for: .touchUpInside)
+        self.view.addSubview(self.buttonShare)
+
+    }
+
+    //MARK: UIactivityViewController
+   @objc func hendleShare(sender: Any){
+       let text = self.textField.text
+
+        if text?.count == 0 {
+            let message = "Сначала введите текст"
+            let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+            let action  = UIAlertAction(title: "ok", style: .cancel, handler: nil)
+
+            alertController.addAction(action)
+            self.present(alertController, animated: true, completion: nil)
+
+        }
+
+        self.activityViewController = UIActivityViewController(activityItems: [self.textField.text ?? "nil"], applicationActivities: nil)
+        self.present(self.activityViewController!, animated: true, completion: nil)
     }
     
     @objc func segmentControlChange(sender: UISegmentedControl){
@@ -196,5 +239,7 @@ extension ViewController: UIPickerViewDelegate{
         return result
     }
 }
+
+
 
 
