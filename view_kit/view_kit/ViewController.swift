@@ -8,7 +8,7 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController{
     
     let label = UILabel()
     let buttonAction = UIButton()
@@ -25,11 +25,10 @@ class ViewController: UIViewController {
     var activityViewController: UIActivityViewController? = nil
     
     var menuArrey = ["one", "two", "tree"]
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
         //label
         self.label.frame = CGRect(x: 200, y: 70, width: 100, height: 50)
         self.label.text = "hello world"
